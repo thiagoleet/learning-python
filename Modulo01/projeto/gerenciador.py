@@ -18,6 +18,12 @@ def ver_tarefas(tarefas):
     return
 
 
+def atualizar_nome_tarefa(tarefas, index, novo_nome):
+    tarefas[index]["tarefa"] = novo_nome
+    print(f"\nTarefa {index} atualizado para '{novo_nome}'")
+    return
+
+
 tarefas = []
 
 
@@ -36,6 +42,12 @@ while True:
         adicionar_tarefa(tarefas, nome_tarefa)
     elif escolha == "2":
         ver_tarefas(tarefas)
+    elif escolha == "3":
+        ver_tarefas(tarefas)
+        index = int(
+            input("\nDigite o número da tarefa que deseja atualizar: ")) - 1
+        novo_nome = input("\nDigite o novo nome da tarefa: ")
+        atualizar_nome_tarefa(tarefas, index, novo_nome)
     elif escolha == "6":
         break
 
