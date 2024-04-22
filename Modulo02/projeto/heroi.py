@@ -11,3 +11,9 @@ class Heroi(Personagem):
 
     def exibir_detalhes(self) -> str:
         return f"{super().exibir_detalhes()}\nHabilidade: {self.get_habilidade()}"
+
+    def ataque_especial(self, alvo) -> None:
+        dano = self.get_nivel() * 5
+        alvo.receber_dano(dano)
+        print(
+            f"\n{self.get_nome()} usou sua habilidade especial {self.get_habilidade()} e causou {dano} de dano")

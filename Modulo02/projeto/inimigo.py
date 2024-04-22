@@ -6,7 +6,7 @@ class Inimigo(Personagem):
         super().__init__(nome, vida, nivel)
         self.__tipo = tipo
 
-    def get_tipo(self):
+    def get_tipo(self) -> str:
         return self.__tipo
 
     def exibir_detalhes(self) -> str:
