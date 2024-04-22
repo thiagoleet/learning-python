@@ -24,6 +24,16 @@ class Jogo:
             escolha = input(
                 "Escolha (1) Ataque Normal - (2) Ataque Especial:")
 
+            if escolha == "1":
+                self.heroi.atacar(self.inimigo)
+            else:
+                print("Escolha inválida, escolha novamente")
+
+            if self.heroi.get_vida() > 0:
+                print("\nParabéns, você venceu a batalha!")
+            else:
+                print("\nVocê foi derrotado!")
+
 
 # Criar instância do jogo e iniciar a batalha
 jogo = Jogo()
