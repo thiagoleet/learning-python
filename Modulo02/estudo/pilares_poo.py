@@ -2,6 +2,7 @@
 
 # Herança
 
+from abc import ABC, abstractmethod
 print("\nExemplo de Herança")
 
 
@@ -29,6 +30,9 @@ class Gato(Animal):
 
 dog = Cachorro("Rex")
 cat = Gato("Felix")
+
+dog.andar()
+cat.andar()
 
 # Polimorfismo
 print("\nExemplo de Polimorfismo")
@@ -67,3 +71,32 @@ conta.sacar(200)
 print(f"Saldo: {conta.consultar_saldo()}")
 
 conta_do_zezinho = ContaBancaria(saldo=50)
+
+
+# Abstração
+print("\nExemplo de Abstração")
+
+
+class Veiculo(ABC):
+
+    @abstractmethod
+    def ligar(self) -> None:
+        pass
+
+    @abstractmethod
+    def desligar(self) -> None:
+        pass
+
+
+class Carro(Veiculo):
+
+    def ligar(self) -> None:
+        print("Ligando o carro")
+
+    def desligar(self) -> None:
+        print("Desligando o carro")
+
+
+carro_amarelo = Carro()
+carro_amarelo.ligar()
+carro_amarelo.desligar()
