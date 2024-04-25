@@ -4,7 +4,6 @@ import uuid
 app = Flask(__name__)
 
 tasks = []
-# task_id_control = 1
 
 # CRUD
 
@@ -13,12 +12,10 @@ tasks = []
 
 @app.route("/tasks", methods=["POST"])
 def create_task():
-    global task_id_control
     data = request.get_json()
     new_task = Task(id=uuid.uuid4(),
                     title=data["title"],
                     description=data.get("description", ""))
-    # task_id_control += 1
 
     print(new_task.to_dict())
     tasks.append(new_task)
@@ -65,6 +62,21 @@ def update_task(id):
                   "task": task.to_dict()}
 
         return jsonify(output), 202
+
+
+@app.route("/tasks/<uuid:id>", methods=["DELETE"])
+def delete_task(id):
+    task = None
+    for t in tasks:
+        if t.id == id:
+            task = t
+            break
+
+    if not task:
+        return jsonify({"message": "Tarefa não encontrada"}), 404
+    else:
+        tasks.remove(task)
+        return jsonify({"message": "Tarefa removida com sucesso!"}), 200
 
 
 if __name__ == "__main__":
