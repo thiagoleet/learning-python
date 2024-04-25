@@ -17,4 +17,25 @@ def test_create_task():
     response_json = response.json()
     assert "message" in response_json
     assert "task" in response_json
-    tasks.append(response_json["task"])
+    createdTask = response_json["task"]
+    tasks.append(createdTask)
+
+
+def test_get_tasks():
+    response = requests.get(f"{BASE_URL}/tasks")
+    assert response.status_code == 200
+    response_json = response.json()
+    assert "tasks" in response_json
+    assert "total" in response_json
+    assert len(response_json["tasks"]) == len(tasks)
+
+
+def test_get_task():
+    if tasks:
+        task = tasks[0]
+        print(task)
+        task_id = task["id"]
+        response = requests.get(f"{BASE_URL}/tasks/{task_id}")
+        assert response.status_code == 200
+        response_json = response.json()
+        assert response_json == task
