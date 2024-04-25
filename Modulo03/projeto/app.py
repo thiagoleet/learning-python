@@ -76,7 +76,7 @@ def delete_task(id):
         return jsonify({"message": "Tarefa não encontrada"}), 404
     else:
         tasks.remove(task)
-        return jsonify({"message": "Tarefa removida com sucesso!"}), 200
+        return jsonify({"message": "Tarefa removida com sucesso!"}), 204
 
 
 if __name__ == "__main__":
