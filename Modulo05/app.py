@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, send_file, render_template
 from datetime import datetime, timedelta
+from flask_socketio import SocketIO
 from repository.database import db
 from db_models.payment import Payment
 from payments.pix import Pix
@@ -8,6 +9,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "SECRET_KEY_WEBSOCKET"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 
+socketio = SocketIO(app)
 db.init_app(app)
 
 
@@ -45,6 +47,26 @@ def get_image(file_name):
 
 @app.route("/payments/pix/confirmation", methods=["POST"])
 def pix_confirmation():
+    data = request.get_json()
+
+    # validations
+    if "bank_payment_id" not in data and "value" not in data:
+        return jsonify({"message": "Invalid payment data"}), 400
+
+    payment = Payment.query.filter_by(
+        bank_payment_id=data["bank_payment_id"]).first()
+
+    # payment
+    if not payment or payment.paid:
+        return jsonify({"message": "Payment not found"}), 404
+
+    if data.get("value") != payment.value:
+        return jsonify({"message": "Invalid payment data"}), 400
+
+    payment.paid = True
+    db.session.commit()
+    socketio.emit(f"payment-confirmed-{payment.id}")
+
     return jsonify({"message": "The payment has been confirmed"}), 202
 
 
@@ -53,7 +75,16 @@ def payment_pix_page(payment_id):
     payment = Payment.query.get(payment_id)
 
     if not payment:
-        render_template("404.html")
+        return render_template("404.html",
+                               host="http://localhost:3000"
+                               )
+    elif payment.paid:
+        return render_template(
+            "confirmed_payment.html",
+            payment_id=payment.id,
+            payment_value=payment.value,
+            host="http://localhost:3000",
+        )
     else:
         print(payment.qr_code)
 
@@ -65,6 +96,18 @@ def payment_pix_page(payment_id):
             qr_code=payment.qr_code
         )
 
+# websockets
+
+
+@socketio.on("connect")
+def handle_connect():
+    print("Client connected to the server")
+
+
+@socketio.on("disconnect")
+def handle_disconnect():
+    print("Client has disconnected to the server")
+
 
 if __name__ == "__main__":
-    app.run(debug=True, port=3000)
+    socketio.run(app=app, debug=True, port=3000)
