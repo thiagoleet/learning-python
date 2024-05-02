@@ -21,10 +21,10 @@ def test_calculate_integration():
     driver = MockDriverHandler()
     calc = Calculator2(driver_handler=driver)
 
-    formated_response = calc.calculate(request=mock_request)
+    response = calc.calculate(request=mock_request)
 
-    assert isinstance(formated_response, dict)
-    assert formated_response == {
+    assert isinstance(response, dict)
+    assert response == {
         'data':
         {
             'Calculator': 2,
