@@ -3,7 +3,7 @@
 class Process:
 
     def handle(self, username: str, password: str) -> None:
-        if selk.__verify_input_data(username, password):  # 1
+        if self.__verify_input_data(username, password):  # 1
             self.__verify_input_in_database(username)  # 2
             self.__insert_new_user(username, password)  # 3
         else:
