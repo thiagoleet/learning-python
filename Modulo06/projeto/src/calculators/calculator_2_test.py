@@ -1,7 +1,6 @@
 from typing import Dict, List
 from pytest import raises
 from .calculator_2 import Calculator2
-from src.drivers.interfaces.driver_handler_interface import DriverHandlerInterface
 
 
 class MockRequest:
@@ -9,9 +8,10 @@ class MockRequest:
         self.json = body
 
 
-class MockDriverHandler(DriverHandlerInterface):
+class MockDriverHandler():
     def standard_derivation(self, numbers: List[float]) -> float:
         return 3
+
 
 # Integração entre Numpy Handler e Calculator2
 
