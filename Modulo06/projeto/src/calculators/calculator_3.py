@@ -3,24 +3,25 @@ from typing import Dict, List
 from src.drivers.interfaces.driver_handler_interface import DriverHandlerInterface
 from src.errors.http_bad_request import HttpBadRequestError
 from src.errors.http_unprocessable_entity import HttpUnprocessableEntityError
+from .interfaces.calculator_interface import CalculatorListInterface as Calculator
 
 
-class Calculator3:
+class Calculator3(Calculator):
     def __init__(self, driver_handler: DriverHandlerInterface) -> None:
         self.__driver_handler = driver_handler
 
     def calculate(self, request: FlaskRequest) -> Dict:
         body = request.json
-        input_data = self.__validate_body(body=body)
+        input_data = self._validate_body(body=body)
 
         variance = self.__calculate_variance(numbers=input_data)
         multiplication = self.__calculate_multiplication(numbers=input_data)
         self.__verify_results(variance=variance, multiplication=multiplication)
-        formated_response = self.__format_response(variance=variance)
+        formated_response = self._format_response(result=variance)
 
         return formated_response
 
-    def __validate_body(self, body: Dict) -> List[float]:
+    def _validate_body(self, body: Dict) -> List[float]:
         if "numbers" not in body:
             raise HttpUnprocessableEntityError("Body mal formatado")
 
@@ -43,9 +44,10 @@ class Calculator3:
             raise HttpBadRequestError(
                 "Falha no processo: Variância menor do que multiplicação")
 
-    def __format_response(self, variance: float) -> Dict:
-        return {"data": {
-            "Calculator": 3,
-            "value": variance,
-            "success": True
-        }}
+    def _format_response(self, result: float) -> Dict:
+        return {
+            "data": {
+                "Calculator": 3,
+                "value": result,
+                "success": True
+            }}
