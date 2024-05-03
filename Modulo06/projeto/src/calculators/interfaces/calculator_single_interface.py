@@ -8,6 +8,8 @@ class CalculatorSingleInterface(ABC):
     @abstractmethod
     def calculate(self, request: FlaskRequest) -> Dict: pass
 
-    def __validate_body(self, body: Dict) -> float: pass
+    @abstractmethod
+    def _validate_body(self, body: Dict) -> float: pass
 
-    def __format_response(self, result: float) -> Dict: pass
+    @abstractmethod
+    def _format_response(self, result: float) -> Dict: pass

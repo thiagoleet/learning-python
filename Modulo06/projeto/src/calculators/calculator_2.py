@@ -11,13 +11,13 @@ class Calculator2(Calculator):
 
     def calculate(self, request: FlaskRequest) -> Dict:
         body = request.json
-        input_data = self.__validate_body(body=body)
+        input_data = self._validate_body(body=body)
         calculate_number = self.__process_data(input_data=input_data)
-        formated_response = self.__format_response(
-            number=calculate_number)
+        formated_response = self._format_response(
+            result=calculate_number)
         return formated_response
 
-    def __validate_body(self, body: Dict) -> List[float]:
+    def _validate_body(self, body: Dict) -> List[float]:
         if "numbers" not in body:
             raise HttpUnprocessableEntityError("Body mal formatado")
 
@@ -30,9 +30,9 @@ class Calculator2(Calculator):
             numbers=first_process_result)
         return 1/result
 
-    def __format_response(self, number: float) -> Dict:
+    def _format_response(self, result: float) -> Dict:
         return {
             "data": {
                 "Calculator": 2,
-                "result": round(number, 2)
+                "result": round(result, 2)
             }}

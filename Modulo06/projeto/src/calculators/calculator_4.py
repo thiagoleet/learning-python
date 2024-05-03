@@ -1,22 +1,23 @@
 from flask import request as FlaskRequest
 from typing import Dict, List
 from src.errors.http_unprocessable_entity import HttpUnprocessableEntityError
+from .interfaces.calculator_single_interface import CalculatorSingleInterface as Calculator
 
 
-class Calculator4:
+class Calculator4(Calculator):
 
     def __init__(self):
         pass
 
     def calculate(self, request: FlaskRequest):
         body = request.json
-        numbers = self.__validate_body(body=body)
+        numbers = self._validate_body(body=body)
         calculated_average = self.__calculate_average(numbers=numbers)
-        formated_response = self.__format_response(
-            average=calculated_average)
+        formated_response = self._format_response(
+            result=calculated_average)
         return formated_response
 
-    def __validate_body(self, body: Dict) -> List[float]:
+    def _validate_body(self, body: Dict) -> List[float]:
         if "numbers" not in body:
             raise HttpUnprocessableEntityError("Body mal formatado")
         numbers = body["numbers"]
@@ -29,10 +30,10 @@ class Calculator4:
         average = sum(numbers) / len(numbers)
         return average
 
-    def __format_response(self, average: float) -> Dict:
+    def _format_response(self, result: float) -> Dict:
         return {
             "data": {
                 "Calculator": 4,
-                "result": round(average, 2)
+                "result": round(result, 2)
             }
         }

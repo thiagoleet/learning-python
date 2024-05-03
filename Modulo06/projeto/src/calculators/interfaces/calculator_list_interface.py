@@ -12,7 +12,7 @@ class CalculatorListInterface(ABC):
     def calculate(self, request: FlaskRequest) -> Dict: pass
 
     @abstractmethod
-    def __validate_body(self, body: Dict) -> List[float]: pass
+    def _validate_body(self, body: Dict) -> List[float]: pass
 
     @abstractmethod
-    def __format_response(self, number: float) -> Dict: pass
+    def _format_response(self, result: float) -> Dict: pass
