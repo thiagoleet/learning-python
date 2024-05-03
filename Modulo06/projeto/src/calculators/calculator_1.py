@@ -1,9 +1,10 @@
 from flask import request as FlaskRequest
 from typing import Dict
 from src.errors.http_unprocessable_entity import HttpUnprocessableEntityError
+from .interfaces.calculator_single_interface import CalculatorSingleInterface as Calculator
 
 
-class Calculator1:
+class Calculator1(Calculator):
 
     def calculate(self, request: FlaskRequest) -> Dict:
         body = request.json
@@ -34,8 +35,9 @@ class Calculator1:
         second_part = (first_part / 5) + 1
         return second_part
 
-    def __format_response(self, calc_result: float) -> Dict:
-        return {"data": {
-            "Calculator": 1,
-            "result": round(calc_result, 2)
-        }}
+    def __format_response(self, result: float) -> Dict:
+        return {
+            "data": {
+                "Calculator": 1,
+                "result": round(result, 2)
+            }}

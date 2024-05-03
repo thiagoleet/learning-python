@@ -2,9 +2,10 @@ from flask import request as FlaskRequest
 from typing import Dict, List
 from src.drivers.interfaces.driver_handler_interface import DriverHandlerInterface
 from src.errors.http_unprocessable_entity import HttpUnprocessableEntityError
+from .interfaces.calculator_list_interface import CalculatorListInterface as Calculator
 
 
-class Calculator2:
+class Calculator2(Calculator):
     def __init__(self, driver_handler: DriverHandlerInterface) -> None:
         self.__driver_handler = driver_handler
 
@@ -13,7 +14,7 @@ class Calculator2:
         input_data = self.__validate_body(body=body)
         calculate_number = self.__process_data(input_data=input_data)
         formated_response = self.__format_response(
-            calculate_number=calculate_number)
+            number=calculate_number)
         return formated_response
 
     def __validate_body(self, body: Dict) -> List[float]:
@@ -29,9 +30,9 @@ class Calculator2:
             numbers=first_process_result)
         return 1/result
 
-    def __format_response(self, calculate_number: float) -> Dict:
+    def __format_response(self, number: float) -> Dict:
         return {
             "data": {
                 "Calculator": 2,
-                "result": round(calculate_number, 2)
+                "result": round(number, 2)
             }}
