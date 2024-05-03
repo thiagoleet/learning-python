@@ -1,7 +1,7 @@
 from flask import request as FlaskRequest
 from typing import Dict
 from src.errors.http_unprocessable_entity import HttpUnprocessableEntityError
-from .interfaces.calculator_single_interface import CalculatorSingleInterface as Calculator
+from .interfaces.calculator_interface import CalculatorSingleInterface as Calculator
 
 
 class Calculator1(Calculator):

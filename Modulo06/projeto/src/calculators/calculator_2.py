@@ -2,7 +2,7 @@ from flask import request as FlaskRequest
 from typing import Dict, List
 from src.drivers.interfaces.driver_handler_interface import DriverHandlerInterface
 from src.errors.http_unprocessable_entity import HttpUnprocessableEntityError
-from .interfaces.calculator_list_interface import CalculatorListInterface as Calculator
+from .interfaces.calculator_interface import CalculatorListInterface as Calculator
 
 
 class Calculator2(Calculator):

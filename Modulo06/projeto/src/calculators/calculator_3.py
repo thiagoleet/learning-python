@@ -3,7 +3,7 @@ from typing import Dict, List
 from src.drivers.interfaces.driver_handler_interface import DriverHandlerInterface
 from src.errors.http_bad_request import HttpBadRequestError
 from src.errors.http_unprocessable_entity import HttpUnprocessableEntityError
-from .interfaces.calculator_list_interface import CalculatorListInterface as Calculator
+from .interfaces.calculator_interface import CalculatorListInterface as Calculator
 
 
 class Calculator3(Calculator):
